@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Booking System - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <h1><i class="fa-solid fa-train"></i> Railway System</h1>
+            <div id="nav-items">
+                <!-- Links MUST point to the new HTML files -->
+                <a href="index.html">Search Trains</a>
+                <a href="bookings.html">My Bookings</a>
+                
+                <!-- Admin link visibility determined by JS -->
+                <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
+                
+                <!-- Login link is active on this page -->
+                <a href="login.html" id="login-btn" class="btn-login" style="background-color: var(--primary-hover);">Login</a>
+                <a href="#" id="logout-btn" onclick="logout()" class="btn-login" style="display: none; background-color: #ef4444;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content" style="max-width: 450px;">
+        
+        <!-- LOGIN CARD -->
+        <div class="card" style="padding: 40px;">
+            <h2 style="margin-bottom: 10px;">User Login</h2>
+            <p style="text-align: center; font-size: 0.9rem; margin-bottom: 25px;">
+                or <a href="register.html" style="color: var(--primary); font-weight: 600;">Register for a new account</a>
+            </p>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="login-username" placeholder="john_doe or admin" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" placeholder="********" required>
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 25px;">Login</button>
+            </form>
+        </div>
+
+        <div id="login-error-message" class="error-message" style="display: none; margin-top: 20px;"></div>
+
+    </div>
+
+    <!-- Script tag loads the JavaScript logic -->
+    <script src="js/app.js"></script>
+    <script>
+        // Check local storage on page load and update the navbar state
+        window.onload = function() {
+            updateNavbar();
+            // If already logged in, redirect to dashboard
+            if (localStorage.getItem('railwayUser')) {
+                window.location.href = 'dashboard.html';
+            }
+        };
+    </script>
+</body>
+</html>

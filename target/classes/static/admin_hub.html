@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Booking System - Admin Hub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <h1><i class="fa-solid fa-train"></i> Railway System</h1>
+            <div id="nav-items">
+                <a href="index.html">Search Trains</a>
+                <a href="bookings.html">My Bookings</a>
+                
+                <!-- Admin link is active -->
+                <a href="admin_hub.html" id="admin-link" style="color: var(--primary);">Admin</a>
+                
+                <a href="login.html" id="login-btn" class="btn-login" style="display: none;">Login</a>
+                <a href="#" id="logout-btn" onclick="logout()" class="btn-login" style="display: none; background-color: #ef4444;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-layout">
+        
+        <!-- ADMIN AUTHORIZATION CHECK (Hidden by default) -->
+        <div id="admin-auth-check"></div>
+
+        <!-- Sidebar - Admin Profile and Navigation -->
+        <aside class="sidebar" id="admin-sidebar" style="display: none;">
+            <div class="profile-card">
+                <img src="https://placehold.co/60x60/dc2626/ffffff?text=A" onerror="this.onerror=null;this.src='https://placehold.co/60x60/dc2626/ffffff?text=A'" alt="Admin Profile">
+                <h4 id="user-name-display">Administrator</h4>
+                <p id="user-username-display" style="color: var(--accent); font-weight: 600;"></p>
+            </div>
+
+            <!-- Admin Menu -->
+            <ul class="sidebar-menu">
+                <li><a href="admin_hub.html" class="active"><i class="fa-solid fa-gauge-high"></i> Admin Hub</a></li>
+                <li><a href="admin.html"><i class="fa-solid fa-list-check"></i> Manage Train Services</a></li>
+                <li><a href="add_train.html"><i class="fa-solid fa-plus-circle"></i> Add Train Service</a></li>
+                <li><a href="admin_feedback.html"><i class="fa-solid fa-comments"></i> View Feedback</a></li>
+                <li style="border-top: 1px solid #e2e8f0; margin-top: 10px; padding-top: 10px;">
+                    <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Admin Content -->
+        <main class="dashboard-content" id="admin-main-content" style="display: none;">
+            
+            <h2 class="dashboard-title">Admin Command Center</h2>
+            
+            <!-- Quick Action Cards -->
+            <div class="action-cards-grid">
+                
+                <!-- Card 1: Train Management -->
+                <a href="admin.html" class="action-card" style="border-top-color: #4895ef;">
+                    <div class="card-icon blue"><i class="fa-solid fa-list-check"></i></div>
+                    <h4>Manage Train Services</h4>
+                    <p>View all trains, edit schedules, or remove services.</p>
+                </a>
+                
+                <!-- Card 2: Add Train -->
+                <a href="add_train.html" class="action-card" style="border-top-color: #4361ee;">
+                    <div class="card-icon blue" style="background: #4361ee;"><i class="fa-solid fa-plus"></i></div>
+                    <h4>Add New Service</h4>
+                    <p>Create a new train service route and schedule.</p>
+                </a>
+
+                <!-- Card 3: Manage Feedback -->
+                <a href="admin_feedback.html" class="action-card" style="border-top-color: #f77f00;">
+                    <div class="card-icon orange"><i class="fa-solid fa-comment-dots"></i></div>
+                    <h4>View Feedback</h4>
+                    <p>Review passenger ratings and reply to comments.</p>
+                </a>
+
+                <!-- Card 4: Ticket Management -->
+                <a href="bookings.html" class="action-card" style="border-top-color: #b5179e;">
+                    <div class="card-icon purple" style="background: #b5179e;"><i class="fa-solid fa-ticket"></i></div>
+                    <h4>Manage Reservations</h4>
+                    <p>View all passenger ticket data in the system.</p>
+                </a>
+
+            </div>
+
+        </main>
+        
+    </div>
+
+    <!-- Script tag loads the JavaScript logic -->
+    <script src="js/app.js"></script>
+    <script>
+        // Check local storage on page load
+        window.onload = function() {
+            updateNavbar();
+            
+            // CRITICAL: Ensure only Admins can see this page
+            const authCheck = checkAdminAccess();
+            
+            if (authCheck) {
+                // If authorized, show the content
+                document.getElementById('admin-sidebar').style.display = 'block';
+                document.getElementById('admin-main-content').style.display = 'block';
+                
+                const currentUser = localStorage.getItem('railwayUser');
+                displayUserProfile(currentUser);
+            }
+        };
+    </script>
+</body>
+</html>

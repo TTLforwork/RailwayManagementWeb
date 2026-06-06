@@ -1,0 +1,575 @@
+/* Import Modern Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #4361ee;       /* Vibrant Blue */
+    --primary-hover: #3a0ca3; /* Deep Blue */
+    --accent: #f72585;        /* Pink Accent (for Cancel/Delete) */
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --white: #ffffff;
+    --text-main: #2b2d42;
+    --text-light: #8d99ae;
+    --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    --input-border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* --- Navbar --- */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#nav-items {
+    display: flex;
+    align-items: center;
+    gap: 25px; 
+}
+
+#nav-items a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+#nav-items a:hover {
+    color: var(--primary);
+}
+
+/* Login/Logout Buttons */
+.btn-login {
+    background: var(--primary);
+    color: white !important;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: transform 0.2s, background 0.2s;
+    box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+}
+
+.btn-login:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* --- Main Content / Containers --- */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.main-content {
+    margin-top: 60px;
+    padding-bottom: 60px;
+}
+
+/* --- Cards --- */
+.card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 30px;
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 1.8rem;
+}
+
+/* --- Form Styles --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 20px;
+    align-items: end;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input, .form-group select { 
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--input-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.2s;
+    background: #f8fafc;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: var(--text-main);
+    border: 2px solid #d1d5db;
+    padding: 14px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+}
+
+.btn-secondary:hover {
+    background: #d1d5db;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Modals --- */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; 
+    padding: 30px;
+    border: none;
+    width: 80%; 
+    max-width: 400px;
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #777;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* --- Search Result Cards --- */
+.train-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border-left: 5px solid var(--accent);
+    transition: transform 0.2s;
+}
+
+.train-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.train-info h3 {
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+}
+
+.train-route {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.train-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+    text-align: right;
+}
+
+.train-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.train-action button {
+    width: auto;
+    padding: 8px 24px;
+    font-size: 0.9rem;
+}
+
+.status-available {
+    color: green;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.status-sold-out {
+    color: #ef4444;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* --- Booking Card Display --- */
+.booking-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border-left: 4px solid var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-details h3 {
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    color: var(--primary-hover);
+}
+
+.booking-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.btn-cancel {
+    background: var(--accent);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #d42a6c;
+}
+
+/* --- DASHBOARD LAYOUT & SIDEBAR --- */
+
+.dashboard-layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    gap: 30px;
+}
+
+.sidebar {
+    width: 250px;
+    flex-shrink: 0;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    height: fit-content;
+}
+
+.profile-card {
+    text-align: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.profile-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary);
+}
+
+.profile-card h4 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.profile-card p {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin: 3px 0 0 0;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 10px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 500;
+    border-radius: 10px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+    background: var(--primary);
+    color: white !important;
+}
+
+.sidebar-menu li a i {
+    font-size: 1.1rem;
+}
+
+.dashboard-content {
+    flex-grow: 1;
+}
+
+.hero-image {
+    width: 100%;
+    height: 350px;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-bottom: 30px;
+    box-shadow: var(--card-shadow);
+}
+
+.dashboard-title {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: var(--primary-hover);
+}
+
+.action-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.action-card {
+    text-align: center;
+    padding: 25px;
+    border-radius: 16px;
+    background: var(--white);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    border-top: 5px solid transparent;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.card-icon.blue { background: #4895ef; }
+.card-icon.purple { background: #b5179e; }
+.card-icon.orange { background: #f77f00; }
+.card-icon.red { background: #ef233c; }
+.card-icon.green { background: #80b918; }
+
+.action-card h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+/* --- Admin Dashboard Specific Styles --- */
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.train-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    box-shadow: var(--card-shadow);
+    border-radius: 16px;
+    overflow: hidden; 
+}
+
+.train-table th, .train-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.train-table th {
+    background: #e2e8f0;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: var(--text-main);
+}
+
+.train-table tr:last-child td {
+    border-bottom: none;
+}
+
+.train-table tr:hover td {
+    background: #f8fafc;
+}
+
+.admin-action-btns button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+}
+
+.btn-delete {
+    background: #dc2626;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    padding: 6px 10px;
+    transition: background 0.2s;
+}
+.btn-delete:hover {
+    background: #b91c1c;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .dashboard-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .sidebar {
+        width: 100%;
+        padding: 20px 10px;
+    }
+    .form-grid {
+        grid-template-columns: 1fr; /* Stack forms vertically on mobile */
+    }
+    .form-grid button {
+        grid-column: 1 / -1; 
+    }
+    .train-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .train-action {
+        width: 100%;
+        align-items: flex-start;
+        margin-top: 15px;
+    }
+    .train-action button {
+        width: 100%;
+    }
+}
