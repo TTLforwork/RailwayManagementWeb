@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Edit Train</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation (Standard Admin Nav) -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <h1><i class="fa-solid fa-train"></i> Railway System</h1>
+            <div id="nav-items">
+                <a href="index.html">Search Trains</a>
+                <a href="bookings.html">My Bookings</a>
+                <!-- Admin link is active on this page's section -->
+                <a href="admin.html" id="admin-link" style="color: var(--primary);">Admin</a>
+                <a href="login.html" id="login-btn" class="btn-login" style="display: none;">Login</a>
+                <a href="#" id="logout-btn" onclick="logout()" class="btn-login" style="display: none; background-color: #ef4444;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content" style="max-width: 650px;">
+        
+        <!-- ADMIN AUTHORIZATION CHECK -->
+        <div id="admin-auth-check">
+            <!-- Auth Check runs onload via JS -->
+        </div>
+
+        <!-- MAIN EDIT TRAIN FORM -->
+        <section id="edit-train-section" style="display: none;">
+            <div class="admin-header" style="margin-bottom: 20px;">
+                <!-- Back Button -->
+                <a href="admin.html" style="text-decoration: none; font-weight: 600; color: var(--text-light);">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+            
+            <div class="card">
+                <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-pen-to-square"></i> Edit Train Details</h2>
+                
+                <form onsubmit="handleTrainSubmission(event)">
+                    <!-- Mode determines if we ADD or EDIT in app.js -->
+                    <input type="hidden" id="train-mode" value="edit"> 
+                    
+                    <!-- Row 1: Read-Only ID -->
+                    <div class="form-group">
+                        <label>Train Number (ID)</label>
+                        <!-- This field is read-only when editing -->
+                        <input type="text" id="admin-train-number" readonly style="background: #f1f5f9; cursor: not-allowed;">
+                    </div>
+                    
+                    <!-- Row 2: Train Name -->
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Train Name</label>
+                        <input type="text" id="admin-train-name" required>
+                    </div>
+                    
+                    <!-- Row 3: Route -->
+                    <div class="form-grid" style="grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Source Station</label>
+                            <input type="text" id="admin-source" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination Station</label>
+                            <input type="text" id="admin-destination" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Schedule/Cost/Seats -->
+                    <div class="form-grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 20px;">
+                        <div class="form-group">
+                            <label>Departure Date</label>
+                            <input type="date" id="admin-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Base Cost ($)</label>
+                            <input type="number" step="0.01" id="admin-cost" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Seats</label>
+                            <input type="number" id="admin-total-seats" required min="1" value="100">
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div id="loading-indicator" style="text-align: center; margin-top: 20px; color: var(--primary); display: none;">
+                        <i class="fa-solid fa-spinner fa-spin"></i> Loading train data...
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="margin-top: 30px;" id="train-submit-btn">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+        </section>
+        <!-- END EDIT TRAIN SECTION -->
+
+    </div>
+
+    <!-- Script tag loads the JavaScript logic -->
+    <script src="js/app.js"></script>
+    <script>
+        // Check local storage on page load and update the page state
+        window.onload = function() {
+            updateNavbar();
+            
+            // This authorization check is critical for Admin pages
+            const authCheck = checkAdminAccess();
+            
+            // If checkAdminAccess confirms admin status, attempt to load the form data
+            if (authCheck) {
+                // The trainNumber is expected in the URL query string (e.g., ?train=T001)
+                const params = new URLSearchParams(window.location.search);
+                const trainNumber = params.get('train');
+                
+                if (trainNumber) {
+                    // This function is defined in app.js and fetches the specific train data
+                    loadTrainForEditing(trainNumber); 
+                } else {
+                    document.getElementById('edit-train-section').innerHTML = '<div class="card"><h2>Error</h2><p>No Train Number provided for editing.</p></div>';
+                    document.getElementById('edit-train-section').style.display = 'block';
+                }
+            }
+        };
+    </script>
+</body>
+</html>

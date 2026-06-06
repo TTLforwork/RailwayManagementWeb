@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Booking System - Submit Feedback</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for icons (used for stars) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Inline styles for star component responsiveness -->
+    <style>
+        .star-rating {
+            font-size: 2.5rem;
+            color: #d1d5db; /* Gray stars */
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .star-rating i {
+            cursor: pointer;
+            transition: color 0.2s;
+            margin: 0 5px;
+        }
+        .star-rating i.rated {
+            color: #ffc107; /* Yellow for rated stars */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <h1><i class="fa-solid fa-train"></i> Railway System</h1>
+            <div id="nav-items">
+                <a href="index.html">Search Trains</a>
+                <a href="bookings.html">My Bookings</a>
+                
+                <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
+                
+                <!-- NOTE: Login/Logout links now point to separate authentication pages -->
+                <a href="login.html" id="login-btn" class="btn-login">Login</a>
+                <a href="#" id="logout-btn" onclick="logout()" class="btn-login" style="display: none; background-color: #ef4444;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container main-content" style="max-width: 650px;">
+        
+        <!-- Dashboard Link -->
+        <div class="admin-header" style="margin-bottom: 20px;">
+            <a href="dashboard.html" style="text-decoration: none; font-weight: 600; color: var(--text-light);">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- SUBMISSION FORM -->
+        <div class="card">
+            <h2 style="margin-bottom: 20px;"><i class="fa-solid fa-star"></i> Submit Trip Feedback</h2>
+            
+            <form onsubmit="handleFeedbackSubmission(event)">
+                
+                <div class="form-group">
+                    <label>Train Number</label>
+                    <input type="text" id="feedback-train-number" placeholder="e.g., T001 (Required)" required>
+                </div>
+
+                <div class="form-group">
+                    <label style="text-align: center;">Your Rating (Click to select)</label>
+                    <div id="star-rating-container" class="star-rating">
+                        <i class="fa-regular fa-star" data-rating="1"></i>
+                        <i class="fa-regular fa-star" data-rating="2"></i>
+                        <i class="fa-regular fa-star" data-rating="3"></i>
+                        <i class="fa-regular fa-star" data-rating="4"></i>
+                        <i class="fa-regular fa-star" data-rating="5"></i>
+                    </div>
+                    <!-- FIX: Removed 'required' attribute, validation is handled in JS -->
+                    <input type="hidden" id="feedback-rating" data-current-rating="0"> 
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>Comments / Suggestions</label>
+                    <textarea id="feedback-comment" rows="4" style="width: 100%; padding: 10px; border: 2px solid var(--input-border); border-radius: 12px; font-family: inherit;" placeholder="Tell us about your experience (max 500 characters)" maxlength="500" required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="margin-top: 30px;">
+                    Submit Feedback
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script tag loads the JavaScript logic -->
+    <script src="js/app.js"></script>
+    <script>
+        // Check local storage on page load and update the page state
+        window.onload = function() {
+            updateNavbar();
+            
+            // Redirect to login if user is not authenticated
+            if (!localStorage.getItem('railwayUser')) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Initialize star rating component logic
+            const starContainer = document.getElementById('star-rating-container');
+            const ratingInput = document.getElementById('feedback-rating');
+
+            starContainer.addEventListener('mouseover', (e) => {
+                const hoverRating = e.target.dataset.rating;
+                if (hoverRating) {
+                    highlightStars(hoverRating);
+                }
+            });
+
+            starContainer.addEventListener('mouseout', () => {
+                const currentRating = ratingInput.dataset.currentRating;
+                highlightStars(currentRating);
+            });
+
+            starContainer.addEventListener('click', (e) => {
+                const clickRating = e.target.dataset.rating;
+                if (clickRating) {
+                    ratingInput.value = clickRating;
+                    ratingInput.dataset.currentRating = clickRating;
+                    highlightStars(clickRating);
+                }
+            });
+
+            function highlightStars(ratingValue) {
+                const stars = starContainer.querySelectorAll('i');
+                stars.forEach((star) => {
+                    const starRating = parseInt(star.dataset.rating);
+                    if (starRating <= ratingValue) {
+                        star.classList.add('fa-solid', 'rated');
+                        star.classList.remove('fa-regular');
+                    } else {
+                        star.classList.add('fa-regular');
+                        star.classList.remove('fa-solid', 'rated');
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+</html>

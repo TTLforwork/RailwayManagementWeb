@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Booking System - My Bookings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <h1><i class="fa-solid fa-train"></i> Railway System</h1>
+            <div id="nav-items">
+                <!-- Links MUST point to the new HTML files -->
+                <a href="index.html">Search Trains</a>
+                <a href="bookings.html" style="color: var(--primary);">My Bookings</a>
+                
+                <!-- Admin link visibility determined by JS -->
+                <a href="admin.html" id="admin-link" style="display: none;">Admin</a>
+                
+                <!-- NOTE: Login/Logout links now point to separate authentication pages -->
+                <a href="login.html" id="login-btn" class="btn-login">Login</a>
+                <a href="#" id="logout-btn" onclick="logout()" class="btn-login" style="display: none; background-color: #ef4444;">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content" style="max-width: 800px;">
+        
+        <!-- Booking Management Header -->
+        <h2 style="margin-bottom: 30px;">Ticket Reservations</h2>
+        
+        <!-- Bookings List Area -->
+        <div id="bookings-list-container">
+            <p style="text-align:center; color: var(--text-light);">
+                Loading your reserved tickets...
+            </p>
+            <!-- Tickets will be injected here by loadMyBookings() in app.js -->
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; color: var(--text-light);">
+            <i class="fa-solid fa-info-circle"></i> Only tickets associated with your account roles are displayed.
+        </p>
+    </div>
+    
+    <!-- MODALS (These MUST be here because they are triggered by tickets on this page) -->
+
+    <!-- CANCELLATION CONFIRMATION MODAL -->
+    <div id="cancel-modal" class="modal">
+        <div class="modal-content" style="max-width: 350px;">
+            <span class="close" onclick="closeCancelModal()">&times;</span>
+            <h2 style="color: #ef4444; font-size: 1.5rem; text-align: center; margin-bottom: 20px;">Confirm Cancellation</h2>
+            <p style="text-align: center; margin-bottom: 20px;">Are you sure you want to cancel PNR: <strong id="cancel-pnr-display"></strong>?</p>
+            <input type="hidden" id="pnr-to-cancel">
+            
+            <div style="display: flex; justify-content: space-between; gap: 10px;">
+                <button onclick="closeCancelModal()" class="btn-secondary" style="background-color: #e5e7eb; color: #1f2937; width: 50%;">Go Back</button>
+                <button onclick="confirmCancellation()" class="btn-primary" style="background-color: #ef4444; width: 50%;">Yes, Cancel Ticket</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Script tag loads the JavaScript logic -->
+    <script src="js/app.js"></script>
+    <script>
+        // Check local storage on page load and update the page state
+        window.onload = function() {
+            updateNavbar();
+            
+            // Check if user is logged in. If not, redirect to login page
+            const currentUser = localStorage.getItem('railwayUser');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // If logged in, load the bookings list
+            loadMyBookings();
+            
+            // Check if admin and show admin link
+            if (currentUser === 'admin') {
+                document.getElementById('admin-link').style.display = 'inline';
+            }
+        };
+    </script>
+</body>
+</html>
